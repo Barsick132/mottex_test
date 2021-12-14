@@ -51,9 +51,13 @@ class RegulationController extends Controller
         $validateData = $this->validate($request, $rules);
 
         // Парсинг XML
-        $xml = simplexml_load_file($validateData['file']);
+        try {
+            $xml = simplexml_load_file($validateData['file']);
+        } catch (\Exception $err) {
+            $xml = false;
+        }
         if (!$xml)
-            return redirect()->route('regulations.create')->withErrors(['invalid_xml' => 'Не удалось прочесть xml файл']);
+            return redirect()->route('regulations.create')->withErrors(['invalid_xml' => 'Не удалось прочесть XML файл']);
 
         // Преобразование в массив и валидация данных внутри файла
         $xmlArray = json_decode(json_encode($xml), TRUE);
