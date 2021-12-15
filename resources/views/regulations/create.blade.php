@@ -1,12 +1,15 @@
 @extends('regulations.layout')
 
 @section('content')
+    <!-- Вывод ошибок -->
     @include('errors')
 
+    <!-- Вывод сообщения об успехе -->
     @if(\Session::has('success'))
         <div class="alert alert-info">{{ \Session::get('success') }}</div>
     @endif
 
+    <!-- Форма отправки файла обернутая в карточку -->
     <div class="card">
         <div class="card-body">
             <form method="post" action="{{route('regulations.store')}}" enctype="multipart/form-data">

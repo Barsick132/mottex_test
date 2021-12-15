@@ -14,11 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
+/*
+ * Нормативные документы
+ *
+ */
+// Главная страница
 Route::get('/regulations', [RegulationController::class, 'index'])->name('regulations.index');
+// Форма загрузки
 Route::get('/regulations/create', [RegulationController::class, 'create'])->name('regulations.create');
+// Метод добавления/обновления нормативных документов из файла
 Route::post('/regulations', [RegulationController::class, 'store'])->name('regulations.store');
 
+
+// Редирект прочих маршрутов на главную
 Route::get('/{any}', function () {
     return redirect()->route('regulations.index');
 })->where('any', ".*");

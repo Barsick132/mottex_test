@@ -1,13 +1,16 @@
 @extends('regulations.layout')
 
 @section('content')
+    <!-- Вывод ошибок -->
     @include('errors')
 
+    <!-- Вывод таблицы с нормативными документами -->
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Полный перечень нормативных документов</h5>
 
             <div class="table-responsive">
+                <!-- Таблица -->
                 <table class="table table-sm">
                     <thead>
                     <tr class="">
@@ -38,6 +41,7 @@
                             <td><a class="btn btn-primary btn-sm" href="{{ $reg->link }}">Перейти</a></td>
                         </tr>
                     @endforeach
+                    <!-- Если нет данных выводим сообщение в таблице -->
                     @if(count($regulations) === 0)
                         <tr>
                             <td colspan="11">Нет данных</td>
@@ -48,6 +52,7 @@
             </div>
         </div>
 
+        <!-- Пагинация -->
         @if(count($regulations))
             <div class="card-footer">{{ $regulations->links('vendor.pagination.bootstrap-4') }}</div>
         @endif

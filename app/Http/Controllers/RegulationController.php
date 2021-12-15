@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Validator;
 
 class RegulationController extends Controller
 {
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     *
+     * Главная страница с нормативными документами
+     */
     public function index()
     {
         try {
@@ -69,7 +74,8 @@ class RegulationController extends Controller
             'channel.item.*.author' => 'required|email',
             'channel.item.*.title' => 'required|string',
             'channel.item.*.description' => 'required|string|regex:/^ID проекта:\s(.+)\nДата создания:\s(.+)\nРазработчик:\s(.+)\nПроцедура:\s(.+)\nВид:\s(.+)$/iu',
-            'channel.item.*.guid' => 'required|integer'
+            'channel.item.*.guid' => 'required|array',
+            'channel.item.*.guid.0' => 'required|integer|integer',
         ])->validate();
 
         // Преобразование данных перед массовой загрузкой
@@ -81,6 +87,7 @@ class RegulationController extends Controller
                 $item['procedure'] = str_replace("\"", "", $matches[4]);
                 $item['kind'] = str_replace("\"", "", $matches[5]);
             }
+            $item['guid'] = $item['guid'][0];
             unset($item['description']);
             return $item;
         }, $validateXmlArr['channel']['item']);
